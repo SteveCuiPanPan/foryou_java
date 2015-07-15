@@ -1,6 +1,7 @@
 package com.changyu.foryou.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +25,16 @@ public class NewsServiceImpl implements NewsService {
 		this.newsMapper = newsMapper;
 	}
 
-	public List<SmallNews> getSmallNews() {
-		return newsMapper.getSmallNews();
+	public List<SmallNews> getSmallNews(Map<String,Object> map) {
+		return newsMapper.getSmallNews(map);
 	}
 
 	public News getNewsById(Long newsId) {
 		return newsMapper.selectByPrimaryKey(newsId);
 	}
 
-	public List<News> getPcAllNews() {
-		return newsMapper.getPcAllNews();
+	public List<News> getPcAllNews(Map<String, Object> requestMap) {
+		return newsMapper.getPcAllNews(requestMap);
 	}
 
 	public Integer addNews(News news) {

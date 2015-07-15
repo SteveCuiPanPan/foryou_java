@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.changyu.foryou.mapper.NewsMapper" >
- <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true" />
+ <!-- <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true" /> -->
   <resultMap id="BaseResultMap" type="com.changyu.foryou.model.News" >
-    <id column="news_id" property="newsId" jdbcType="BIGINT" />
+    <id column="news_id" property="newsId" jdbcType="INTEGER" />
+    <result column="campus_id" property="campusId" jdbcType="BIGINT"/>
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
@@ -15,7 +16,7 @@
     <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    news_id, create_time, title, img_url, content
+    news_id, campus_id, create_time, title, img_url, content
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -97,16 +98,17 @@
     where news_id = #{newsId,jdbcType=BIGINT}
   </update>
   
-  <select id="getSmallNews" resultMap="SmallResultMap">
+  <select id="getSmallNews" parameterType="java.util.Map" resultMap="SmallResultMap">
     select 
       news_id,img_url
     from news
+    where campus_id=#{campusId} limit #{offset},#{limit}
   </select>
   
-  <select id="getPcAllNews" resultMap="BaseResultMap">
+  <select id="getPcAllNews" parameterType="java.util.Map" resultMap="BaseResultMap">
     select 
       <include refid="Base_Column_List" />
-    from news
+    from news where campus_id=#{campusId}
   </select>
   
 </mapper>

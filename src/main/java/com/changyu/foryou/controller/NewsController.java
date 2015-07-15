@@ -51,11 +51,16 @@ public class NewsController {
 	 * @return
 	 */
 	@RequestMapping("/getMainImage")
-	public @ResponseBody Map<String, Object> getMainImage(){
+	public @ResponseBody Map<String, Object> getMainImage(@RequestParam Integer campusId,Integer page,Integer limit){
 		Map<String, Object> map=new HashMap<String,Object>();
-
+		Map<String,Object> requestMap = new HashMap<String,Object>();
+		if(campusId!=null&&page!=null&&limit!=null){
+			requestMap.put("campusId", campusId);
+			requestMap.put("offset", (page-1)*limit);
+			requestMap.put("limit", limit);
+		}
 		try {
-			List<SmallNews> news=newsService.getSmallNews();
+			List<SmallNews> news=newsService.getSmallNews(requestMap);
 			if(news.size()<=0){
 				map.put(Constants.STATUS, Constants.FAILURE);
 				map.put(Constants.MESSAGE, "获取图片失败！");
@@ -69,7 +74,7 @@ public class NewsController {
 			map.put(Constants.STATUS, Constants.FAILURE);
 			map.put(Constants.MESSAGE, "获取图片失败");
 		}
-
+		
 		return map;
 	}
 
@@ -81,7 +86,7 @@ public class NewsController {
 	@RequestMapping("/getNewsById")
 	public @ResponseBody Map<String,Object> getNewsById(@RequestParam Long newsId){
 		Map<String, Object> map=new HashMap<String,Object>();
-
+		
 		try {
 			News news=newsService.getNewsById(newsId);
 			if(news==null){
@@ -101,11 +106,13 @@ public class NewsController {
 	}
 
 	@RequestMapping("/getPCAllNews")
-	public @ResponseBody JSONArray getPcAllNews(){
+	public @ResponseBody JSONArray getPcAllNews(@RequestParam Integer campusId){
 		List<News> news=null;
-
+		Map<String, Object> requestMap = new HashMap<String, Object>();
+		requestMap.put("campusId",campusId);
 		try {
-			news=newsService.getPcAllNews();
+			news=newsService.getPcAllNews(requestMap);
+			System.out.println(news.size());
 			for(News newsMessage:news){
 				if(newsMessage.getContent().length()>27){
 					String contentString=newsMessage.getContent().substring(0,26);
@@ -135,6 +142,7 @@ public class NewsController {
 
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
+		Integer campusId = Integer.parseInt(request.getParameter("campusId"));
 
 		if(myfile.isEmpty()){  
 			System.out.println("文件未上传");  
@@ -157,6 +165,7 @@ public class NewsController {
 				news.setCreateTime(new Date());
 				news.setContent(content);
 				news.setNewsId(new Date().getTime());
+				news.setCampusId(campusId);
 				int flag= newsService.addNews(news);
 				if(flag!=0&&flag!=-1){
 					return "redirect:/pages/news.html";
