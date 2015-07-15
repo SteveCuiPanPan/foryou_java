@@ -5,6 +5,8 @@ import java.util.Date;
 public class News {
     private Long newsId;
 
+    private Long campusId;
+    
     private Date createTime;
 
     private String title;
@@ -52,4 +54,12 @@ public class News {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+	public Long getCampusId() {
+		return campusId;
+	}
+
+	public void setCampusId(Long campusId) {
+		this.campusId = campusId;
+	}
 }
