@@ -3,7 +3,7 @@
 <mapper namespace="com.changyu.foryou.mapper.NewsMapper" >
  <!-- <cache eviction="LRU" flushInterval="60000" size="512" readOnly="true" /> -->
   <resultMap id="BaseResultMap" type="com.changyu.foryou.model.News" >
-    <id column="news_id" property="newsId" jdbcType="BIGINT" />
+    <id column="news_id" property="newsId" jdbcType="INTEGER" />
     <result column="campus_id" property="campusId" jdbcType="BIGINT"/>
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="title" property="title" jdbcType="VARCHAR" />

@@ -51,7 +51,7 @@ public class NewsController {
 	 * @return
 	 */
 	@RequestMapping("/getMainImage")
-	public @ResponseBody Map<String, Object> getMainImage(@RequestParam Long campusId,Integer page,Integer limit){
+	public @ResponseBody Map<String, Object> getMainImage(@RequestParam Integer campusId,Integer page,Integer limit){
 		Map<String, Object> map=new HashMap<String,Object>();
 		Map<String,Object> requestMap = new HashMap<String,Object>();
 		if(campusId!=null&&page!=null&&limit!=null){
@@ -106,7 +106,7 @@ public class NewsController {
 	}
 
 	@RequestMapping("/getPCAllNews")
-	public @ResponseBody JSONArray getPcAllNews(@RequestParam Long campusId){
+	public @ResponseBody JSONArray getPcAllNews(@RequestParam Integer campusId){
 		List<News> news=null;
 		Map<String, Object> requestMap = new HashMap<String, Object>();
 		requestMap.put("campusId",campusId);
@@ -142,7 +142,7 @@ public class NewsController {
 
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		Long campusId = Long.parseLong(request.getParameter("campusId"));
+		Integer campusId = Integer.parseInt(request.getParameter("campusId"));
 
 		if(myfile.isEmpty()){  
 			System.out.println("文件未上传");  
