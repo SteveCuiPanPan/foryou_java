@@ -90,4 +90,7 @@
       location_y = #{locationY,jdbcType=DOUBLE}
     where campus_id = #{campusId,jdbcType=INTEGER}
   </update>
+  <select id="selectAllCampus" resultMap="BaseResultMap">
+  select campus_id, campus_name, city_id, location_x, location_y from campus
+  </select>
 </mapper>
